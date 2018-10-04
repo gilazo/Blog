@@ -4,9 +4,6 @@ namespace Blog.Application
 {
     public class Post
     {
-        public Post(string title, Content content)
-            :this(DateTime.UtcNow, title, content) {}
-
         private Post(DateTime postDateUtc, string title, Content content)
         {
             PostDateUtc = postDateUtc;
@@ -17,5 +14,8 @@ namespace Blog.Application
         public DateTime PostDateUtc { get; }
         public string Title { get; }
         public Content Content { get; }
+
+        public static Post New(string title, Content content) => new Post(DateTime.UtcNow, title, content);
+        public static Post Local(DateTime postDateUtc, string title, Content content) => new Post(postDateUtc.ToUniversalTime(), title, content);
     }
 }
