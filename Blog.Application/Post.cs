@@ -16,6 +16,6 @@ namespace Blog.Application
         public Content Content { get; }
 
         public static Post New(string title, Content content) => new Post(DateTime.UtcNow, title, content);
-        public static Post Local(DateTime postDateUtc, string title, Content content) => new Post(postDateUtc.ToUniversalTime(), title, content);
+        public static Post Past(DateTime postDateUtc, string title, Content content) => new Post(postDateUtc.ToUniversalTime(), title, content);
     }
 }

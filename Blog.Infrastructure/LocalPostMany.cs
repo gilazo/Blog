@@ -22,7 +22,7 @@ namespace Blog.Infrastructure
             return Directory
                 .GetFiles(_options.Path, $"*.{_options.Type.ShortHand}", SearchOption.AllDirectories)
                 .Select(file => new FileInfo(file))
-                .Select(info => Post.Local(info.CreationTimeUtc, Path.GetFileNameWithoutExtension(info.FullName), new Content(_options.Type, File.ReadAllText(info.FullName))));
+                .Select(info => Post.Past(info.CreationTimeUtc, Path.GetFileNameWithoutExtension(info.FullName), new Content(_options.Type, File.ReadAllText(info.FullName))));
         }
     }
 }
