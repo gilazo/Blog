@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Blog.Application;
 
@@ -5,9 +6,9 @@ namespace Blog.Infrastructure
 {
     public class LocalPostCurrent : IQuery<Post>
     {
-        private LocalPostMany _posts;
+        private IQuery<IEnumerable<Post>> _posts;
 
-        public LocalPostCurrent(LocalPostMany posts)
+        public LocalPostCurrent(IQuery<IEnumerable<Post>> posts)
         {
             _posts = posts;
         }

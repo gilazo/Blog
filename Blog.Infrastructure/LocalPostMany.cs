@@ -20,9 +20,10 @@ namespace Blog.Infrastructure
                 return new Post[] {};
             
             return Directory
-                .GetFiles(_options.Path, $"*.{_options.Type.ShortHand}", SearchOption.AllDirectories)
+                .GetFiles(_options.Path, $"*.{_options.Type.Value}", SearchOption.AllDirectories)
                 .Select(file => new FileInfo(file))
-                .Select(info => Post.Past(info.CreationTimeUtc, Path.GetFileNameWithoutExtension(info.FullName), new Content(_options.Type, File.ReadAllText(info.FullName))));
+                .Select(info => Post.Past(info.CreationTimeUtc, Path.GetFileNameWithoutExtension(info.FullName), new Content(_options.Type, File.ReadAllText(info.FullName))))
+                .OrderByDescending(c => c.PostDateUtc);
         }
     }
 }

@@ -13,33 +13,48 @@ namespace Blog.Presentation.Controllers
     [ApiController]
     public class PostsController : ControllerBase
     {
+        private IQuery<IEnumerable<Post>> _posts;
         private LocalPostOptions _options;
 
-        public PostsController(LocalPostOptions options)
+        public PostsController(IQuery<IEnumerable<Post>> posts, LocalPostOptions options)
         {
+            _posts = posts;
             _options = options;
         }
 
         [HttpGet]
-        public ActionResult GetLatest()
+        public ActionResult Get()
+        {
+            return HandleRequest<IEnumerable<Post>>(() =>
+            {
+                return _posts.Query();
+            });
+        }
+
+        [HttpGet]
+        [Route("current")]
+        public ActionResult GetCurrent()
         {
             return HandleRequest<Post>(() => 
             {
                 return new LocalPostCurrent(
-                    new LocalPostMany(
-                        _options
-                    )
+                    _posts
                 )
                 .Query();
             });
         }
 
-        // [HttpGet]
-        // [Route("{year}/{month}/{day}")]
-        // public ActionResult GetByDate()
-        // {
-
-        // }
+        [HttpGet]
+        [Route("{year}/{month}/{day}")]
+        public ActionResult GetByDate([FromRoute] string year, string month, string day)
+        {
+            return HandleRequest<Post>(() =>
+            {
+                return _posts
+                    .Query()
+                    .First(p => p.PostDateUtc.Date == DateTime.Parse($"{year}-{month}-{day}").Date);
+            });
+        }
 
         [HttpPost]
         public ActionResult Create([FromBody] CreatePost request)

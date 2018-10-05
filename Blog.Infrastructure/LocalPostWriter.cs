@@ -23,7 +23,7 @@ namespace Blog.Infrastructure
                 $"{_post.PostDateUtc.Day}"
             );
             Directory.CreateDirectory(path);
-            using (var streamWriter = new StreamWriter(Path.Combine(path, $"{_post.Title}.{_post.Content.Type.ShortHand}")))
+            using (var streamWriter = new StreamWriter(Path.Combine(path, $"{_post.Title}.{_post.Content.Type}")))
             {
                 streamWriter.Write(_post.Content.Value);
             }            

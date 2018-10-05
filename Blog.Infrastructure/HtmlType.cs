@@ -4,7 +4,6 @@ namespace Blog.Infrastructure
 {
     public class HtmlType : IType
     {
-        public string LongHand => "HTML";
-        public string ShortHand => "html";
+        public string Value => "html";
     }
 }

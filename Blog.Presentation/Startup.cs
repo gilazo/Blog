@@ -46,8 +46,9 @@ namespace Blog.Presentation
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-
             services.AddTransient<LocalPostOptions>(_ => new LocalPostOptions(Path.Combine(_environment.ContentRootPath, "Posts"), new HtmlType()));
+
+            services.AddSingleton<IQuery<IEnumerable<Post>>>(serviceProvider => new LocalPostCache(new LocalPostMany(serviceProvider.GetService<LocalPostOptions>()).Query));            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
